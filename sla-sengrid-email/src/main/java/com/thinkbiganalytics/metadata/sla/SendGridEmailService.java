@@ -8,6 +8,8 @@ import com.sendgrid.Request;
 import com.sendgrid.Response;
 import com.sendgrid.SendGrid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.IOException;
@@ -42,19 +44,19 @@ public class SendGridEmailService {
 
         SendGrid sg = new SendGrid(emailConfiguration.getSendGridAPIKey());
         Request request = new Request();
-        System.out.println("send it to grid through "+emailConfiguration.getSendGridAPIKey());
-        System.out.println("send it from "+emailConfiguration.getFrom()+" to "+to);
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            Response response = sg.api(request);
-            System.out.println(response.getStatusCode());
-            System.out.println(response.getBody());
-            System.out.println(response.getHeaders());
-        } catch (IOException ex) {
-            throw ex;
-        }
+
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(mail.build());
+//        Response response = sg.api(request);
+        sg.api(request);
+    }
+
+    /**
+     * @return {@code true} if the configuration is setup, {@code false} if not configured
+     */
+    public boolean isConfigured() {
+        return emailConfiguration.isConfigured();
     }
 
 }

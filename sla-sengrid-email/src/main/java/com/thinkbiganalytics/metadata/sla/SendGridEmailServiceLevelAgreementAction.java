@@ -44,7 +44,12 @@ public class SendGridEmailServiceLevelAgreementAction implements ServiceLevelAgr
      * @return a validation object containing information if the configuration is valid
      */
     public ServiceLevelAgreementActionValidation validateConfiguration() {
-        return ServiceLevelAgreementActionValidation.VALID;
+
+        if (emailService.isConfigured()) {
+            return ServiceLevelAgreementActionValidation.VALID;
+        } else {
+            return new ServiceLevelAgreementActionValidation(false, "SendGrid Email connection information is not setup.  Please contact an administrator to set this up.");
+        }
     }
 
     void sendToAddresses(String emails, String slaName, String description) throws IOException {

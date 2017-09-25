@@ -1,6 +1,9 @@
 package com.thinkbiganalytics.metadata.sla;
 
 import com.sendgrid.*;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 
 /**
@@ -25,6 +28,10 @@ public class SendGridEmailConfiguration {
 
     public void setFrom(String from) {
         this.from = from;
+    }
+
+    public boolean isConfigured() {
+        return StringUtils.isNotBlank(getFrom()) && StringUtils.isNotBlank(getSendGridAPIKey());
     }
 
 }
